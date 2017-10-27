@@ -4,13 +4,13 @@
 import sys
 
 import os
-if not os.path.isfile('test.cfg')
+if not os.path.isfile('test.cfg'):
     print('Config file does not exit')
     sys.exit()
-if not os.path.isfile('user.csv') :
+if not os.path.isfile('user.csv'):
     print('User file does not exit')
     sys.exit()
-if not os.path.isfile('gongzi.csv') :
+if not os.path.isfile('gongzi.csv'):
     print('Gongzi file does not exit')
     sys.exit()
 
@@ -21,25 +21,24 @@ configfile = args[args.index('c') +1]
 userdatafile = args[args.index('d') +1]
 outputfile = args[args.index('o') +1]
 
-Class Config(object):       
-    def __init__(self, configfile):
-        self._config = {}
-        file1 = open(configfile)
-	file2 = file1.readlines()
-	for line in file2:
-	    line.strip()
-	    front_str = line.split('=')[0]
-            back_str = line.split('=')[1]
-	self._config[front_str] = int(back_str)
-	file1.close()
+class Config(object):
+    self._config = {}
+    file1 = open(configfile)
+    file2 = file1.readlines()
+    for line in file2:
+        line.strip()
+        front_str = line.split('=')[0]
+        back_str = line.split('=')[1]
+        self._config[front_str] = int(back_str)
+    file1.close()
     def get_config(self):
         return self._config(self)
 
 canshu = Config(configfile)
 
-Class Userdata(object):
+class Userdata(object):
     def __init__(self, userdatafile):
-        self._userdata = []
+	self._userdata = []
 	file3 = open(userdatafile)
 	file4 = file3.readlines()
 	for line in file4:
