@@ -17,20 +17,21 @@ if not os.path.isfile('gongzi.csv'):
 
 
 args= sys.argv[1:]
-configfile = args[args.index('c') +1]
-userdatafile = args[args.index('d') +1]
-outputfile = args[args.index('o') +1]
+configfile = args[args.index('-c') +1]
+userdatafile = args[args.index('-d') +1]
+outputfile = args[args.index('-o') +1]
 
 class Config(object):
-    self._config = {}
-    file1 = open(configfile)
-    file2 = file1.readlines()
-    for line in file2:
-        line.strip()
-        front_str = line.split('=')[0]
-        back_str = line.split('=')[1]
-        self._config[front_str] = int(back_str)
-    file1.close()
+    def __init__(self,configfile):
+        self_config = {}
+        file1 = open(configfile)
+        file2 = file1.readlines()
+        for line in file2:
+            line.strip()
+            front_str = line.split('=')[0]
+            back_str = line.split('=')[1]
+            self._config[front_str] = int(back_str)
+        file1.close()
     def get_config(self):
         return self._config(self)
 
@@ -38,30 +39,26 @@ canshu = Config(configfile)
 
 class Userdata(object):
     def __init__(self, userdatafile):
-	self._userdata = []
-	file3 = open(userdatafile)
-	file4 = file3.readlines()
-	for line in file4:
-	    front_num = line.split(',')[0]
-	    sqsalary = line.split(',')[1]
-	    self._userdata.append(int(sqsalary))
-	file3.close()
-
+        self._userdata = []
+        file3 = open(userdatafile)
+        file4 = file3.readlines()
+        for line in file4:
+            front_num = line.split(',')[0]
+            sqsalary = line.split(',')[1]
+            self._userdata.append(int(sqsalary))
+        file3.close()
     def calculator(self):
-	tax_rate = 0
-	sskcs = 0
-	if  sqsalary < canshu.get_config('JiShuL') and sqsalary >= 0:
-	    jishu = canshu.get_config('JiShuL')
-        elif  sqsalary >= canshu.get_config('JiShuL')  and sqsalary <= canshu.get_config('JiShuH')
+        tax_rate = 0
+        sskcs = 0
+        if  sqsalary < canshu.get_config('JiShuL') and sqsalary >= 0:
+            jishu = canshu.get_config('JiShuL')
+        elif  sqsalary >= canshu.get_config('JiShuL')  and sqsalary <= canshu.get_config('JiShuH'):
             jishu = sqsalary
-        elif  sqsalary > canshu.get_config('JiShuH')
+        elif  sqsalary > canshu.get_config('JiShuH'):
             jishu = canshu.get_config('JiShuH')
-	else:
+        else:
             print('ParameterError')
-
-
         insurance = jishu * (canshu.get_config('YangLao') + canshu.get_config('YiLiao')  + canshu.get_config('ShiYe')  +  canshu.get_config('GongShang') + canshu.get_config('ShengYu') + canshu.get_config('GongJiJin'))
-
         ynssde = sqsalary - insurance - 3500
 
         if ynssde < 1500 and ynssde > 0:
@@ -94,7 +91,7 @@ class Userdata(object):
         geshui = format(tax, '0.2f')
         shebao = format(insurance,'0.2f')
 
-    def dumptofile(self, outputfile)
+    def dumptofile(self, outputfile):
         with open(outputfile, 'a') as file:
             outputfile.write(front_num + ',')
             outputfile.write(sqsalary + ',')
