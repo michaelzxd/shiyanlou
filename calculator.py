@@ -37,21 +37,21 @@ class Config(object):
         return self._config[shebaocanshu]
 
 canshu = Config(configfile)
-
+finallist = []
 class Userdata(object):
     def __init__(self, userdatafile):
-        self._userdata = []
+        self._userdata = {}
         file3 = open(userdatafile)
         file4 = file3.readlines()
         for line in file4:
             front_num = line.split(',')[0]
             shuzi = line.split(',')[1].strip('\n')
-            self._userdata.append(int(shuzi))
+            self._userdata[front_num] =int(shuzi)
         file3.close()
     def calculator(self):
         tax_rate = 0
         sskcs = 0
-        for sqsalary in self._userdata:
+        for front_num,sqsalary in self._userdata.items():
             if  sqsalary < canshu.get_config('JiShuL') and sqsalary >= 0:
                 jishu = canshu.get_config('JiShuL')
             elif  sqsalary >= canshu.get_config('JiShuL')  and sqsalary <= canshu.get_config('JiShuH'):
@@ -92,14 +92,18 @@ class Userdata(object):
             shsalary = format(sqsalary - insurance - tax,'0.2f')
             geshui = format(tax, '0.2f')
             shebao = format(insurance,'0.2f')
+            finallist.append(front_num)
+            finallist.append(sqsalary)
+            finallist.append(shebao)
+            finallist.append(geshui)
+            finallist.append(shsalary)
 
     def dumptofile(self, outputfile):
-        with open(outputfile, 'a') as file:
-            outputfile.write(front_num + ',')
-            outputfile.write(sqsalary + ',')
-            outputfile.write(str(shebao) + ',')
-            outputfile.write(str(geshui) + ',')
-            outputfile.write(str(shsalary)) 
+        with open(finallist, 'r') as src_file:
+            with open（outputfile, 'w') as dst_file:
+                dst_file.write(src_file.read())
+
+
 
 finalfile = Userdata(userdatafile)
 finalfile.calculator()
