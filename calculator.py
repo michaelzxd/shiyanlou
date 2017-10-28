@@ -4,17 +4,6 @@
 import sys
 
 import os
-if not os.path.isfile('test.cfg'):
-    print('Config file does not exit')
-    sys.exit()
-if not os.path.isfile('user.csv'):
-    print('User file does not exit')
-    sys.exit()
-if not os.path.isfile('gongzi.csv'):
-    print('Gongzi file does not exit')
-    sys.exit()
-
-
 
 args= sys.argv[1:]
 configfile = args[args.index('-c') +1]
