@@ -100,7 +100,7 @@ class Userdata(object):
 
     def dumptofile(self, outputfile):
         with open(finallist, 'r') as src_file:
-            with open（outputfile, 'w') as dst_file:
+            with open(outputfile, 'w') as dst_file:
                 dst_file.write(src_file.read())
 
 
