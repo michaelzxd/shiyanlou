@@ -96,13 +96,12 @@ class Userdata(object):
             finallist.append(str(sqsalary))
             finallist.append(str(shebao))
             finallist.append(str(geshui))
-            finallist.append(str(shsalary))
-            finallist.append('\n')
+            finallist.append(str(shsalary)+'\n')
 
     def dumptofile(self, outputfile):
         for item in finallist:
             with open(outputfile,'a') as src_file:
-                if item == '\n':
+                if item.endswith('\n'): 
                     src_file.write(item)
                 else:
                     src_file.write(item + ',')
