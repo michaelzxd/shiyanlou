@@ -92,18 +92,20 @@ class Userdata(object):
             shsalary = format(sqsalary - insurance - tax,'0.2f')
             geshui = format(tax, '0.2f')
             shebao = format(insurance,'0.2f')
-            finallist.append(int(front_num))
-            finallist.append(sqsalary)
-            finallist.append(shebao)
-            finallist.append(geshui)
-            finallist.append(shsalary)
+            finallist.append(front_num)
+            finallist.append(str(sqsalary))
+            finallist.append(str(shebao))
+            finallist.append(str(geshui))
+            finallist.append(str(shsalary))
+            finallist.append('\n')
 
     def dumptofile(self, outputfile):
-        outputfile = finallist
-#        with open(finallist, 'r') as src_file:
-#            with open(outputfile, 'w') as dst_file:
-#                dst_file.write(src_file.read())
-
+        for item in finallist:
+            with open(outputfile,'a') as src_file:
+                if item == '\n':
+                    src_file.write(item)
+                else:
+                    src_file.write(item + ',')
 
 
 finalfile = Userdata(userdatafile)
