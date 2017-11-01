@@ -43,9 +43,10 @@ def duqu(userdatafile):
 
 def jisuan():
     for i in range(0,queue1.qsize()):
-        shuju1 = queue1.get(i)
-        gonghao = shuju1[0]
-        sqsalary = shuju1[1] 
+        shuju1 = []
+        sj =  queue1.get(i)
+        gonghao = sj[0]
+        sqsalary = sj[1] 
         tax_rate = 0
         sskcs = 0
         if  sqsalary < canshu.get_config('JiShuL') and sqsalary >= 0:
@@ -88,9 +89,11 @@ def jisuan():
         shsalary = format(sqsalary - insurance - tax,'0.2f')
         geshui = format(tax, '0.2f')
         shebao = format(insurance,'0.2f')
-        shuju1.append(shebao)
-        shuju1.append(geshui)
-        shuju1.append(shsalary)
+        shuju1.append(str(gonghao))
+        shuju1.append(str(sqsalary))
+        shuju1.append(str(shebao))
+        shuju1.append(str(geshui))
+        shuju1.append(str(shsalary)+ '\n')
         print("cal data",shuju1)
         queue2.put(shuju1)
 
@@ -101,18 +104,21 @@ def xieru(outputfile):
             print("write data",shuju2)
             for item in shuju2:
                 print("item:",item)
-                dst_file.write(str(item))
-                dst_file.write('\n')
+                if item.endswith('\n'):
+                    dst_file.write(item)
+                else:
+                    dst_file.write(str(item) + ',')
 
 def main():
-    processes = [
-    Process(target=duqu,args=(userdatafile,)),
-    Process(target=jisuan),
-    Process(target=xieru,args=(outputfile,))]
-    for process in processes:
-        process.start()
-        process.join()
-
+    dq = Process(target=duqu,args=(userdatafile,))
+    dq.start()
+    dq.join()
+    js = Process(target=jisuan)
+    js.start()
+    js.join()
+    xr = Process(target=xieru,args=(outputfile,))
+    xr.start()
+    xr.join()
 if __name__ == '__main__':
     main()
 
